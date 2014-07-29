@@ -1059,9 +1059,13 @@ class CommandLineInterface(object):
         parser.add_option('--previous', dest='previous', action='store_true',
                           help='keep previous msgids of translated messages '
                                '(default %default)')
+        parser.add_option('--omit-header', dest='omit_header',
+                          action='store_true',
+                          help='do not include msgid "" entry in header')
 
         parser.set_defaults(domain='messages', ignore_obsolete=False,
-                            no_fuzzy_matching=False, previous=False)
+                            no_fuzzy_matching=False, previous=False,
+                            omit_header=False)
         options, args = parser.parse_args(argv)
 
         if not options.input_file:
@@ -1127,7 +1131,8 @@ class CommandLineInterface(object):
                     write_po(tmpfile, catalog,
                              ignore_obsolete=options.ignore_obsolete,
                              include_previous=options.previous,
-                             width=options.width)
+                             width=options.width,
+                             omit_header=options.omit_header)
                 finally:
                     tmpfile.close()
             except:
